@@ -1,0 +1,23 @@
+{
+    "prefab": [
+        "db://internal/prefab/button.prefab",
+        "db://internal/prefab/canvas.prefab",
+        "db://internal/prefab/editbox.prefab",
+        "db://internal/prefab/label.prefab",
+        "db://internal/prefab/layout.prefab",
+        "db://internal/prefab/particlesystem.prefab",
+        "db://internal/prefab/pageview.prefab",
+        "db://internal/prefab/progressBar.prefab",
+        "db://internal/prefab/richtext.prefab",
+        "db://internal/prefab/scrollview.prefab",
+        "db://internal/prefab/slider.prefab",
+        "db://internal/prefab/sprite_splash.prefab",
+        "db://internal/prefab/tiledmap.prefab",
+        "db://internal/prefab/sprite.prefab",
+        "db://internal/prefab/toggle.prefab",
+        "db://internal/prefab/toggleGroup.prefab",
+        "db://internal/prefab/webview.prefab",
+        "db://internal/prefab/videoplayer.prefab"
+    ],
+    "scene": []
+}

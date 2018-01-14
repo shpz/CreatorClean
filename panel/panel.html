@@ -1,0 +1,27 @@
+<div id="warp" class="warp">
+    <header>
+        <i class="fa fa-refresh" aria-hidden="true" title="刷新" @click="refresh"></i>
+        <i class="fa fa-times-circle" aria-hidden="true" title="删除所有未使用资源" @click="onDeleteAllClick"></i>
+    </header>
+
+    <section>
+        <ul>
+            <li>
+                <div class="path">路径</div>
+                <div class="operating">操作</div>
+                <div class="controller"></div>
+            </li>
+            <li v-for="item in items">
+                <div class="path" :title="item.path">{{item.url}}</div>
+                <div class="controller">
+                    <i class="fa fa-file" aria-hidden="true" title="场景资源" @click="jumpRes(item.uuid)"></i>
+                    <i class="fa fa-times" aria-hidden="true" title="删除该资源" @click="onDeleteClick(item.url)"></i>
+                    <!--<i class="fa fa-folder-open" aria-hidden="true"></i>-->
+                </div>
+            </li>
+        </ul>
+    </section>
+    <br/>
+    <i class="fa fa-github"> https://github.com/shpz/CreatorClean </i>
+
+</div>

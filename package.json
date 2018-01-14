@@ -1,0 +1,20 @@
+{
+  "name": "clean",
+  "version": "0.0.1",
+  "description": "Creator Plugin",
+  "author": "Shpoz",
+  "main": "main.js",
+  "main-menu": {
+    "工具/Clean": {
+      "message": "clean:open"
+    }
+  },
+  "panel": {
+    "main": "panel/panel.js",
+    "type": "dockable",
+    "title": "Clean Tools",
+    "width": 500,
+    "height": 300,
+    "messages": []
+  }
+}
