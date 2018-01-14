@@ -83,7 +83,7 @@ var createVM = function (elem) {
                     }
                 }
                 else if (json instanceof Object) {
-                    if (json['__type__'] == 'cc.Sprite') {
+                    if (json['__type__'] == 'cc.Sprite' && json._spriteFrame) {
                         return json._spriteFrame.__uuid__ == uuid;
                     }
                 }
