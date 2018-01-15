@@ -38,8 +38,7 @@ var createVM = function (elem) {
                         var json = FFs.readJsonSync(obj.path);
 
                         results.forEach(function (result) {
-                            // result.contain = false;
-                            if (result.url.indexOf('default_') != -1) {
+                            if (result.url.indexOf('default_') != -1 || result.url.indexOf('anim') != -1 || result.url.indexOf('Anim') != -1 || result.url.indexOf('atlas') != -1 || result.url.indexOf('Poker') != -1) {
                                 result.contain = true;
                                 return;
                             }
@@ -64,7 +63,6 @@ var createVM = function (elem) {
                         }
                     );
                 });
-
             },
 
             /** 
@@ -89,6 +87,32 @@ var createVM = function (elem) {
                 }
             },
 
+            searchClip(json, uuid) {
+                let self = this;
+                let sf = [];
+                this.getSpriteFrame(json, 'spriteFrame', sf);
+                for (let i = 0; i < sf.length; i++) {
+                    if (sf[i].value.__uuid__ == true) {
+                        return true;
+                    }
+                }
+                return false;
+            },
+
+            getSpriteFrame(json, key, sf) {
+                if (json && typeof json == 'object') {
+                    for (let i in json) {
+                        if (i == key) {
+                            sf = json[key];
+                            return;
+                        }
+                        else {
+                            this.getSpriteFrame(json[i], key, sf);
+                        }
+                    }
+                }
+            },
+
             jumpRes(uuid) {
                 Editor.Ipc.sendToAll('assets:hint', uuid);
             },
@@ -102,7 +126,7 @@ var createVM = function (elem) {
                 let urlArr = [];
                 for (let i = 0; i < this.items.length; i++) {
                     let picUrl = this.getPicUrl(this.items[i].url);
-                    urlArr.push(picUrl);
+                    Editor.assetdb.remote.exists(picUrl) ? urlArr.push(picUrl) : '';
                 }
                 this.deleteRes(urlArr, this.items);
                 Editor.log("删除全部成功！");
@@ -118,26 +142,18 @@ var createVM = function (elem) {
             deleteRes(url, items) {
                 let self = this;
                 let adb = Editor.assetdb;
-                adb.delete(url, function (err) {
-                    if (err) {
-                        console.error(">>>>>debug err: " + err);
-                        return;
-                    }
-                    // self.refresh();
-                    // console.log("delete");
-                    // if (url instanceof Array) {
-                    //     items.length = 0;
-                    //     items = [];
-                    //     console.log("isArr");
-                    // }
-                    // else {
-                    //     items.splice(items.findIndex(function (item) {
-                    //         return item.url == url[0];
-                    //     }), 1);
-                    // }
-                    Editor.log("删除成功！");
-                });
-                this.refresh();
+                adb.delete(url);
+                if (url.length > 1) {
+                    items.length = 0;
+                    items = [];
+                    console.log("isArr");
+                }
+                else {
+                    items.splice(items.findIndex(function (item, index, array) {
+                        return self.getPicUrl(item.url) == url[0];
+                    }), 1);
+                }
+                // this.refresh();
             },
         }
     });
