@@ -38,7 +38,7 @@ var createVM = function (elem) {
                         var json = FFs.readJsonSync(obj.path);
 
                         results.forEach(function (result) {
-                            if (result.url.indexOf('default_') != -1 || result.url.indexOf('anim') != -1 || result.url.indexOf('Anim') != -1 || result.url.indexOf('atlas') != -1 || result.url.indexOf('Poker') != -1) {
+                            if (result.url.indexOf('default_') != -1 || result.url.indexOf('anim') != -1 || result.url.indexOf('Anim') != -1 || result.url.indexOf('atlas') != -1) {
                                 result.contain = true;
                                 return;
                             }
@@ -142,17 +142,17 @@ var createVM = function (elem) {
             deleteRes(url, items) {
                 let self = this;
                 let adb = Editor.assetdb;
-                adb.delete(url);
                 if (url.length > 1) {
                     items.length = 0;
                     items = [];
-                    console.log("isArr");
                 }
                 else {
-                    items.splice(items.findIndex(function (item, index, array) {
+                    let index = items.findIndex(function (item, index, array) {
                         return self.getPicUrl(item.url) == url[0];
-                    }), 1);
+                    });
+                    index == -1 ? '' : items.splice(index, 1);
                 }
+                adb.delete(url);
                 // this.refresh();
             },
         }
