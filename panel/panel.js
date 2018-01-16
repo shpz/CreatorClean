@@ -37,8 +37,16 @@ var createVM = function (elem) {
                         }
                         var json = FFs.readJsonSync(obj.path);
 
+
                         results.forEach(function (result) {
-                            if (result.url.indexOf('default_') != -1 || result.url.indexOf('anim') != -1 || result.url.indexOf('Anim') != -1 || result.url.indexOf('atlas') != -1) {
+                            let sf = [];
+                            if (json['__type__'] == 'cc.AnimationClip') {
+                                if (self.searchClip(json, result.uuid)) {
+                                    result.contain = true;
+                                    return;
+                                }
+                            }
+                            if (result.url.indexOf('default_') != -1) {
                                 result.contain = true;
                                 return;
                             }
@@ -54,7 +62,7 @@ var createVM = function (elem) {
                     });
                 };
 
-                adb.queryAssets(null, ['scene', 'prefab'], function (err, objs) {
+                adb.queryAssets(null, ['scene', 'prefab', 'animation-clip'], function (err, objs) {
                     adb.queryAssets(
                         null,
                         'sprite-frame',
@@ -89,28 +97,37 @@ var createVM = function (elem) {
 
             searchClip(json, uuid) {
                 let self = this;
-                let sf = [];
-                this.getSpriteFrame(json, 'spriteFrame', sf);
-                for (let i = 0; i < sf.length; i++) {
-                    if (sf[i].value.__uuid__ == true) {
-                        return true;
+                let spriteFrame = [];
+                spriteFrame = this.getValue(json);
+                if (spriteFrame) {
+                    for (let i = 0; i < spriteFrame.length; i++) {
+                        if (spriteFrame[i].value.__uuid__ === uuid) {
+                            return true;
+                        }
                     }
                 }
+
                 return false;
             },
 
-            getSpriteFrame(json, key, sf) {
-                if (json && typeof json == 'object') {
-                    for (let i in json) {
-                        if (i == key) {
-                            sf = json[key];
-                            return;
-                        }
-                        else {
-                            this.getSpriteFrame(json[i], key, sf);
+            getValue(json) {
+                if (typeof json !== 'object') {
+                    return null;
+                }
+
+                for (let key in json) {
+                    if (key === 'spriteFrame') {
+                        return json[key];
+                    }
+                    else {
+                        let spriteFrame = this.getValue(json[key]);
+                        if (spriteFrame) {
+                            return spriteFrame;
                         }
                     }
+
                 }
+                return null;
             },
 
             jumpRes(uuid) {
@@ -143,8 +160,7 @@ var createVM = function (elem) {
                 let self = this;
                 let adb = Editor.assetdb;
                 if (url.length > 1) {
-                    items.length = 0;
-                    items = [];
+                    this.refresh();
                 }
                 else {
                     let index = items.findIndex(function (item, index, array) {
