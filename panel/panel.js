@@ -132,6 +132,7 @@ var createVM = function (elem) {
 
             jumpRes(uuid) {
                 Editor.Ipc.sendToAll('assets:hint', uuid);
+                Editor.Selection.select('asset', uuid, true);
             },
 
             onDeleteClick(url) {
