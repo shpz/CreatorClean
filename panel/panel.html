@@ -4,8 +4,14 @@
         <i class="fa fa-times-circle" aria-hidden="true" title="删除所有未使用资源" @click="onDeleteAllClick"></i>
         <i class="fa fa-picture-o" > {{items.length}} </i>
     </header>
-
-    <section>
+    
+    <section class="res" >忽略目录<br/><br/><ui-checkbox v-value="resources">resources</ui-checkbox></section>
+    <section class="res" >
+        目标资源类型<br/><br/>
+        <ui-checkbox v-value="SpriteFrame">cc.SpriteFrame</ui-checkbox>
+        <!-- <ui-checkbox v-value="AnimationClip">cc.AnimationClip</ui-checkbox> -->
+    </section>
+    <section class="form">
         <ul>
             <li>
                 <div class="path">路径</div>

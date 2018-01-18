@@ -15,11 +15,35 @@ var createVM = function (elem) {
     return new Vue({
         el: elem,
         data: {
+            resources: true,
             items: [],
             ignore: null,
+            type: ['sprite-frame'],
+            SpriteFrame: true,
+            AnimationClip: false,
         },
         watch: {
-
+            resources() {
+                this.refresh();
+            },
+            SpriteFrame() {
+                if (this.SpriteFrame) {
+                    this.type.push('sprite-frame');
+                }
+                else {
+                    this.type.splice(this.type.indexOf('sprite-frame'));
+                }
+                this.refresh();
+            },
+            // AnimationClip() {
+            //     if (this.AnimationClip) {
+            //         this.type.push('animation-clip');
+            //     }
+            //     else {
+            //         this.type.splice(this.type.indexOf('animation-clip'));
+            //     }
+            //     this.refresh();
+            // }
         },
         methods: {
 
@@ -46,7 +70,12 @@ var createVM = function (elem) {
                                     return;
                                 }
                             }
-                            if (result.url.indexOf('default_') != -1 || result.url.indexOf('.plist') != -1 || result.url.indexOf('ddzAnim') != -1 || result.url.indexOf('Poker') != -1 || result.url.indexOf('textures/MJ') != -1) {
+                            if (result.url.indexOf('default_') != -1) {
+                                result.contain = true;
+                                return;
+                            }
+
+                            if (self.resources && result.url.indexOf('resources') != -1) {
                                 result.contain = true;
                                 return;
                             }
@@ -65,7 +94,7 @@ var createVM = function (elem) {
                 adb.queryAssets(null, ['scene', 'prefab', 'animation-clip'], function (err, objs) {
                     adb.queryAssets(
                         null,
-                        'sprite-frame',
+                        self.type,
                         function (err, results) {
                             callback(objs, results);
                         }

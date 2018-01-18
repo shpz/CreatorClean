@@ -13,20 +13,22 @@ header {
   display: flex;
   height: 50px;
 }
-header ui-prop {
-  display: flex;
-  flex: 1;
-}
-header ui-prop ui-asset {
-  flex: 1;
-}
+
 header i.fa {
   margin: 6px 2px;
   padding: 12px 6px;
   cursor: pointer;
   font-size: 14px;
 }
-section {
+
+section.res {
+  margin: 6px 2px;
+  padding: 6px 2px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+section.form {
   flex: 1;
   border-radius: 4px;
   border: 1px solid #666;
