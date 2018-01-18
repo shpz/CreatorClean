@@ -46,7 +46,7 @@ var createVM = function (elem) {
                                     return;
                                 }
                             }
-                            if (result.url.indexOf('default_') != -1) {
+                            if (result.url.indexOf('default_') != -1 || result.url.indexOf('.plist') != -1 || result.url.indexOf('ddzAnim') != -1 || result.url.indexOf('Poker') != -1 || result.url.indexOf('textures/MJ') != -1) {
                                 result.contain = true;
                                 return;
                             }
@@ -95,14 +95,34 @@ var createVM = function (elem) {
                 }
             },
 
+            /** 
+             * Recursive
+             * @argument {JSON}     json    JSON.parse(cc.Animation)
+             * @argument {String}   uuid    target.uuid
+             */
             searchClip(json, uuid) {
                 let self = this;
                 let spriteFrame = [];
-                spriteFrame = this.getValue(json);
-                if (spriteFrame) {
-                    for (let i = 0; i < spriteFrame.length; i++) {
-                        if (spriteFrame[i].value.__uuid__ === uuid) {
-                            return true;
+                let paths = this.getValue(json, 'paths');
+                if (paths) {
+                    for (let i in paths) {
+                        spriteFrame = this.getValue(paths[i], 'spriteFrame');
+                        if (spriteFrame) {
+                            for (let i = 0; i < spriteFrame.length; i++) {
+                                if (spriteFrame[i].value.__uuid__ === uuid) {
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+                else {
+                    spriteFrame = this.getValue(json, 'spriteFrame');
+                    if (spriteFrame) {
+                        for (let i = 0; i < spriteFrame.length; i++) {
+                            if (spriteFrame[i].value.__uuid__ === uuid) {
+                                return true;
+                            }
                         }
                     }
                 }
@@ -110,19 +130,24 @@ var createVM = function (elem) {
                 return false;
             },
 
-            getValue(json) {
+            compare(json) {
+
+            },
+
+            getValue(json, key) {
+                key = key ? key : 'spriteFrame';
                 if (typeof json !== 'object') {
                     return null;
                 }
 
-                for (let key in json) {
-                    if (key === 'spriteFrame') {
-                        return json[key];
+                for (let i in json) {
+                    if (i === key) {
+                        return json[i];
                     }
                     else {
-                        let spriteFrame = this.getValue(json[key]);
-                        if (spriteFrame) {
-                            return spriteFrame;
+                        let value = this.getValue(json[i], key);
+                        if (value) {
+                            return value;
                         }
                     }
 
