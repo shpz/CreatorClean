@@ -19,22 +19,22 @@ var createVM = function (elem) {
             items: [],
             ignore: null,
             type: ['sprite-frame'],
-            SpriteFrame: true,
-            AnimationClip: false,
+            // SpriteFrame: true,
+            // AnimationClip: false,
         },
         watch: {
             resources() {
                 this.refresh();
             },
-            SpriteFrame() {
-                if (this.SpriteFrame) {
-                    this.type.push('sprite-frame');
-                }
-                else {
-                    this.type.splice(this.type.indexOf('sprite-frame'));
-                }
-                this.refresh();
-            },
+            // SpriteFrame() {
+            //     if (this.SpriteFrame) {
+            //         this.type.push('sprite-frame');
+            //     }
+            //     else {
+            //         this.type.splice(this.type.indexOf('sprite-frame'));
+            //     }
+            //     this.refresh();
+            // },
             // AnimationClip() {
             //     if (this.AnimationClip) {
             //         this.type.push('animation-clip');
