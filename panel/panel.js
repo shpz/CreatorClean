@@ -138,7 +138,7 @@ var createVM = function (elem) {
                         spriteFrame = this.getValue(paths[i], 'spriteFrame');
                         if (spriteFrame) {
                             for (let i = 0; i < spriteFrame.length; i++) {
-                                if (spriteFrame[i].value.__uuid__ === uuid) {
+                                if (spriteFrame[i].value.__uuid__ && spriteFrame[i].value.__uuid__ === uuid) {
                                     return true;
                                 }
                             }
