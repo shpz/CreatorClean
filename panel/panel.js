@@ -19,31 +19,11 @@ var createVM = function (elem) {
             items: [],
             ignore: null,
             type: ['sprite-frame'],
-            // SpriteFrame: true,
-            // AnimationClip: false,
         },
         watch: {
             resources() {
                 this.refresh();
             },
-            // SpriteFrame() {
-            //     if (this.SpriteFrame) {
-            //         this.type.push('sprite-frame');
-            //     }
-            //     else {
-            //         this.type.splice(this.type.indexOf('sprite-frame'));
-            //     }
-            //     this.refresh();
-            // },
-            // AnimationClip() {
-            //     if (this.AnimationClip) {
-            //         this.type.push('animation-clip');
-            //     }
-            //     else {
-            //         this.type.splice(this.type.indexOf('animation-clip'));
-            //     }
-            //     this.refresh();
-            // }
         },
         methods: {
 
@@ -59,26 +39,24 @@ var createVM = function (elem) {
                         if (self.ignore.prefab.indexOf(obj.url) != -1) {
                             return;
                         }
-                        var json = FFs.readJsonSync(obj.path);
-
+                        let json = FFs.readJsonSync(obj.path);
 
                         results.forEach(function (result) {
-                            let sf = [];
-                            if (json['__type__'] == 'cc.AnimationClip') {
-                                if (self.searchClip(json, result.uuid)) {
-                                    result.contain = true;
-                                    return;
-                                }
-                            }
-                            if (result.url.indexOf('default_') != -1) {
+                            if (result.url.indexOf('/default_') !== -1) {
                                 result.contain = true;
                                 return;
                             }
 
-                            if (self.resources && result.url.indexOf('resources') != -1) {
+                            if (self.resources && result.url.indexOf('db://assets/resources') !== -1) {
                                 result.contain = true;
                                 return;
                             }
+
+                            if (json['__type__'] === 'cc.AnimationClip' && self.searchClip(json, result.uuid)) {
+                                result.contain = true;
+                                return;
+                            }
+
                             result.contain = result.contain ? true : self.search(json, result.uuid);
                         });
                     });
@@ -109,7 +87,6 @@ var createVM = function (elem) {
              */
             search(json, uuid) {
                 let self = this;
-
                 if (json instanceof Array) {
                     for (let i = 0; i < json.length; i++) {
                         if (self.search(json[i], uuid)) {
@@ -118,15 +95,55 @@ var createVM = function (elem) {
                     }
                 }
                 else if (json instanceof Object) {
-                    if (json['__type__'] == 'cc.Sprite' && json._spriteFrame) {
+                    if (json['__type__'] === 'cc.Sprite' && json._spriteFrame) {
                         return json._spriteFrame.__uuid__ == uuid;
+                    }
+                    else if (json['__type__'] === 'cc.Button') {
+                        return self.searchButton(json, uuid);
+                    }
+                    else if (json['__type__'] && json['__type__'].length > 20) {
+                        if (Editor.Utils.UuidUtils.isUuid(
+                            Editor.Utils.UuidUtils.decompressUuid(json['__type__'])
+                        )) {
+                            return self.searchScript(json, uuid);
+                        }
                     }
                 }
             },
 
+            searchButton(json, uuid) {
+                return (json.pressedSprite && json.pressedSprite.__uuid__ == uuid) ||
+                    (json.hoverSprite && json.hoverSprite.__uuid__ == uuid) ||
+                    (json._N$normalSprite && json._N$normalSprite.__uuid__ == uuid) ||
+                    (json._N$disabledSprite && json._N$disabledSprite.__uuid__ == uuid);
+            },
+
             /** 
              * Recursive
-             * @argument {JSON}     json    JSON.parse(cc.Animation)
+             * 
+             * Search for the script (cc.Class) in the scene file (.fire).
+             * 
+             * @argument {JSON}     json    cc.Class
+             * @argument {String}   uuid    target.uuid
+             */
+            searchScript(json, uuid) {
+                let result = [];
+
+                for (let i in json) {
+                    if (json[i] && json[i].__uuid__ && json[i].__uuid__ == uuid) {
+                        return true;
+                    }
+                }
+                
+                return false;
+            },
+
+            /** 
+             * Recursive
+             * 
+             * Search for the animation clip (cc.Animation).
+             * 
+             * @argument {JSON}     json    cc.Animation
              * @argument {String}   uuid    target.uuid
              */
             searchClip(json, uuid) {
@@ -159,11 +176,13 @@ var createVM = function (elem) {
                 return false;
             },
 
-            compare(json) {
-
-            },
-
-            getValue(json, key) {
+            /**
+             * ..
+             * @param {JSON} json 
+             * @param {String} key  
+             * @param {Boolean} pan 泛查询开关，因为这样叫比较酷
+             */
+            getValue(json, key, pan) {
                 key = key ? key : 'spriteFrame';
                 if (typeof json !== 'object') {
                     return null;
