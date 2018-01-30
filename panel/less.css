@@ -24,7 +24,6 @@ header i.fa {
 section.res {
   margin: 6px 2px;
   padding: 6px 2px;
-  cursor: pointer;
   font-size: 14px;
 }
 
@@ -61,7 +60,8 @@ ul li .path {
   flex: 1;
 }
 ul li .operating {
-  flex: 50px;
+  margin: 0px -50px;
+  padding: 4px 6px;
 }
 ul li .controller {
   width: 46px;

@@ -16,6 +16,7 @@ var createVM = function (elem) {
         el: elem,
         data: {
             resources: true,
+            input: "",
             items: [],
             ignore: null,
             type: ['sprite-frame'],
@@ -30,10 +31,10 @@ var createVM = function (elem) {
             refresh() {
                 let adb = Editor.assetdb;
                 let self = this;
+                let custIngnore = this.splitInput(this.input)
 
                 this.items.length = 0;
                 this.items = [];
-
                 let callback = function (objs, results) {
                     objs.forEach(function (obj) {
                         if (self.ignore.prefab.indexOf(obj.url) != -1) {
@@ -47,17 +48,33 @@ var createVM = function (elem) {
                                 return;
                             }
 
-                            if (self.resources && result.url.indexOf('db://assets/resources') !== -1) {
+                            for (let i = 0; i < custIngnore.length; i++) {
+                                if (result.url.indexOf(custIngnore[i]) !== -1) {
+                                    result.contain = true;
+                                    return;
+                                }
+                            }
+
+                            if (
+                                self.resources &&
+                                result.url.indexOf('db://assets/resources') !== -1
+                            ) {
                                 result.contain = true;
                                 return;
                             }
 
-                            if (json['__type__'] === 'cc.AnimationClip' && self.searchClip(json, result.uuid)) {
+                            if (
+                                json['__type__'] === 'cc.AnimationClip' &&
+                                self.searchClip(json, result.uuid)
+                            ) {
                                 result.contain = true;
                                 return;
                             }
 
-                            result.contain = result.contain ? true : self.search(json, result.uuid);
+                            result.contain =
+                                result.contain ?
+                                    true :
+                                    self.search(json, result.uuid);
                         });
                     });
 
@@ -69,15 +86,18 @@ var createVM = function (elem) {
                     });
                 };
 
-                adb.queryAssets(null, ['scene', 'prefab', 'animation-clip'], function (err, objs) {
-                    adb.queryAssets(
-                        null,
-                        self.type,
-                        function (err, results) {
-                            callback(objs, results);
-                        }
-                    );
-                });
+                adb.queryAssets(
+                    null,
+                    ['scene', 'prefab', 'animation-clip'],
+                    function (err, objs) {
+                        adb.queryAssets(
+                            null,
+                            self.type,
+                            function (err, results) {
+                                callback(objs, results);
+                            }
+                        );
+                    });
             },
 
             /** 
@@ -134,7 +154,7 @@ var createVM = function (elem) {
                         return true;
                     }
                 }
-                
+
                 return false;
             },
 
@@ -228,6 +248,17 @@ var createVM = function (elem) {
                 let meta = adb.remote.loadMeta(url);
                 let picUrl = adb.remote.uuidToUrl(meta.rawTextureUuid);
                 return picUrl;
+            },
+
+            /**
+             * 
+             * @param {String} str 
+             */
+            splitInput(str) {
+                if (!str) {
+                    return [];
+                }
+                return str.split(',');
             },
 
             deleteRes(url, items) {

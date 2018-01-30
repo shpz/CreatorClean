@@ -2,10 +2,20 @@
     <header>
         <i class="fa fa-refresh" aria-hidden="true" title="刷新" @click="refresh"></i>
         <i class="fa fa-times-circle" aria-hidden="true" title="删除所有未使用资源" @click="onDeleteAllClick"></i>
-        <i class="fa fa-picture-o" > {{items.length}} </i>
+        <i class="fa fa-picture-o"> {{items.length}} </i>
     </header>
-    
-    <section class="res" >忽略目录<br/><br/><ui-checkbox v-value="resources">resources</ui-checkbox></section>
+
+    <section class="res">
+        <ui-checkbox v-value="resources" title="是否忽略resources目录？">
+            resources
+        </ui-checkbox>
+        <br/>
+        <br/>
+
+        <ui-input v-value="input" placeholder="忽略字段或目录，用 “,” 分割" style="width:200">
+
+        </ui-input>
+    </section>
     <section class="form">
         <ul>
             <li>
