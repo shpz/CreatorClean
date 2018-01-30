@@ -36,7 +36,7 @@ Prefab(.prefab)上Component、Button和Sprite挂载的图片
 
 # 插件安装
 
-## 通过拓展商店安装（推荐）
+### 通过拓展商店安装（推荐）
 
 打开Creator
 
@@ -44,7 +44,7 @@ Prefab(.prefab)上Component、Button和Sprite挂载的图片
 
 ![image](https://raw.githubusercontent.com/shpz/CreatorClean/master/use1.png)
 
-## 通过Githu拉取
+### 通过Githu拉取
 
 git clone https://github.com/shpz/CreatorClean.git
 
