@@ -1,12 +1,39 @@
-## RESOURCE 插件
 
-基于 Creator 的插件系统开发，需要将 resource.git 文件夹放入指定文件夹
 
-%User%/.CocosCreator/packages 全局插件引用目录
-%ProjectDir%/packages 当前项目使用的插件目录
+# 写在前边
 
-### 功能介绍
+插件前身是一段扫描指定目录图片资源的代码，用于项目瘦身
 
-将需要查询的资源拖拽进入目标资源框内，下方会列出所有哪些场景，哪个节点引用了这个资源。
+现在还记得当初手动删无用图片资源（1000+）
 
-并提供跳转到资源和跳转到场景/节点的快捷操作按钮。
+一上午就在回想资源有没用，删资源，删错了回退
+
+后来索性做成了一个Creator插件一劳永逸
+
+（世界就是我们懒人创造的，哼）
+
+# 插件功能
+
+![image](http://imgcdn.store.cocos.com/uploads/launcher/source/user/1397846/icon/store_cocos_com_wrench_229939_crop_1515922221.png!175x175)
+
+资源整理工厂
+
+自动扫描Creator工程 assets目录下所有没有用到的图片
+
+插件现在支持扫描：
+
+AnimationClip(.anim)中用到的图片
+
+场景(.fire)上Component、Button和Sprite挂载的图片
+
+Prefab(.prefab)上Component、Button和Sprite挂载的图片
+
+如发现支持其他支持可以告诉我一声... :)
+
+定位资源，统计未使用资源数量
+
+可忽略resources目录
+
+可自定义忽略目录或字段
+
+以及毁天灭地的一键清除功能（！！！慎用）
