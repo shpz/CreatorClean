@@ -76,4 +76,4 @@ git clone https://github.com/shpz/CreatorClean.git
 
 @Jare 和 @C姐 给我了我不少帮助，表示感谢
 
-关于插件的反馈请提交到github或论坛讨论帖http://forum.cocos.com/t/topic/55439/17，表示感谢
+关于插件的反馈请提交到github或[论坛讨论帖](http://forum.cocos.com/t/topic/55439/17)，表示感谢
