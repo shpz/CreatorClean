@@ -28,15 +28,15 @@ AnimationClip(.anim)中用到的图片
 
 Prefab(.prefab)上Component、Button和Sprite挂载的图片
 
-如发现支持其他支持可以告诉我一声... :)
+如发现支持其他支持可以告诉我一声...  : )
 
 定位资源，统计未使用资源数量，可忽略resources目录， 可自定义忽略目录或字段
 
-*以及毁天灭地的一键清除功能（！！！慎用）*
+** 以及毁天灭地的一键清除功能（！！！慎用）**
 
 # 插件安装
 
-*通过拓展商店安装（推荐）*
+## 通过拓展商店安装（推荐）
 
 打开Creator
 
@@ -44,7 +44,7 @@ Prefab(.prefab)上Component、Button和Sprite挂载的图片
 
 ![image](https://raw.githubusercontent.com/shpz/CreatorClean/master/use1.png)
 
-*通过Githu拉取*
+## 通过Githu拉取
 
 git clone https://github.com/shpz/CreatorClean.git
 
