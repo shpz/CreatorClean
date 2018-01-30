@@ -6,7 +6,7 @@
 
 现在还记得当初手动删无用图片资源（1000+）
 
-一上午就在回想资源有没用，删资源，删错了回退![image](https://raw.githubusercontent.com/shpz/CreatorClean/master/emoji2.png)
+一上午就在回想资源有没用，删资源，删错了回退![image](https://raw.githubusercontent.com/shpz/CreatorClean/master/emoji2.jpg)
 
 后来索性做成了一个Creator插件一劳永逸
 
