@@ -6,7 +6,7 @@
 
 现在还记得当初手动删无用图片资源（1000+）
 
-一上午就在回想资源有没用，删资源，删错了回退
+一上午就在回想资源有没用，删资源，删错了回退![image](https://raw.githubusercontent.com/shpz/CreatorClean/master/emoji2.png)
 
 后来索性做成了一个Creator插件一劳永逸
 
@@ -54,9 +54,7 @@ git clone https://github.com/shpz/CreatorClean.git
 
 # 插件使用
 
-插件的制作过程蕴含着我无数的心血和爱，所以插件非常容易上手，爱！
-
-![image](https://raw.githubusercontent.com/shpz/CreatorClean/master/emoji.jpg)
+插件的制作过程蕴含着我无数的心血和爱，所以插件非常容易上手，爱！![image](https://raw.githubusercontent.com/shpz/CreatorClean/master/emoji.jpg)
 
 插件左上从左到右分别是刷新，一键删除和无用资源统计，插件加载完成默认刷新一次
 
