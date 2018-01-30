@@ -54,6 +54,8 @@ git clone https://github.com/shpz/CreatorClean.git
 
 # 插件使用
 
+![image](https://raw.githubusercontent.com/shpz/CreatorClean/master/use3.png)
+
 插件的制作过程蕴含着我无数的心血和爱，所以插件非常容易上手，爱！![image](https://raw.githubusercontent.com/shpz/CreatorClean/master/emoji.jpg)
 
 插件左上从左到右分别是刷新，一键删除和无用资源统计，插件加载完成默认刷新一次
