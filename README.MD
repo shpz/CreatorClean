@@ -44,7 +44,7 @@ Prefab(.prefab)上Component、Button和Sprite挂载的图片
 
 ![image](https://raw.githubusercontent.com/shpz/CreatorClean/master/use1.png)
 
-### 通过Githu拉取
+### 通过Github拉取
 
 git clone https://github.com/shpz/CreatorClean.git
 
@@ -68,7 +68,7 @@ git clone https://github.com/shpz/CreatorClean.git
 
 输入框内用英文逗号 “,” 分割，单个字段请尽量详细
 
-然后是资源清单区，会显示所有资源的路径，操作下边的按钮可以对单个资源定位和删除
+然后是资源清单区，会显示所有未使用图片资源的路径，操作下边的按钮可以对单个资源定位和删除
 
 左下角是可爱的作者的github链接
 
