@@ -1,4 +1,8 @@
+# 支持我
 
+插件永久免费，不需要捐钱，只需要支付宝扫描以下二维码领取红包即可
+
+![image](https://raw.githubusercontent.com/shpz/CreatorClean/master/red.png)
 
 # 写在前边
 
