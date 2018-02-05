@@ -9,6 +9,7 @@
   flex-direction: column;
   overflow: hidden;
 }
+
 header {
   display: flex;
   height: 50px;

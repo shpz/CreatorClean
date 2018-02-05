@@ -4,6 +4,7 @@
 const Fs = require('fs');
 const FFs = require('fire-fs');
 const Path = require('path');
+const cp = require('child_process');
 
 var PATH = {
     html: Editor.url('packages://Clean/panel/panel.html'),
@@ -259,6 +260,10 @@ var createVM = function (elem) {
                     return [];
                 }
                 return str.split(',');
+            },
+
+            goHub() {
+                cp.exec('start https://github.com/shpz/CreatorClean/blob/master/README.MD');
             },
 
             deleteRes(url, items) {

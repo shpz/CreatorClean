@@ -83,3 +83,5 @@ git clone https://github.com/shpz/CreatorClean.git
 @Jare 和 @C姐 给我了我不少帮助，表示感谢
 
 关于插件的反馈请提交到github或[论坛讨论帖](http://forum.cocos.com/t/topic/55439/17)，表示感谢
+
+插件完全由作者自己开发，并保证持续更新和永久免费，对支持我的用户表示感谢
