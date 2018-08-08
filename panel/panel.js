@@ -34,6 +34,7 @@ var createVM = function (elem) {
                 let self = this;
                 let custIngnore = this.splitInput(this.input)
 
+                this.bfList = {};
                 this.items.length = 0;
                 this.items = [];
                 let callback = function (objs, results) {
@@ -72,6 +73,14 @@ var createVM = function (elem) {
                                 return;
                             }
 
+                            if (
+                                json['type'] === 'bitmap-font' &&
+                                self.searchBf(json, result.url)
+                            ) {
+                                result.contain = true;
+                                return;
+                            }
+
                             result.contain =
                                 result.contain ?
                                     true :
@@ -89,7 +98,7 @@ var createVM = function (elem) {
 
                 adb.queryAssets(
                     null,
-                    ['scene', 'prefab', 'animation-clip'],
+                    ['scene', 'prefab', 'animation-clip', 'bitmap-font'],
                     function (err, objs) {
                         adb.queryAssets(
                             null,
@@ -98,7 +107,8 @@ var createVM = function (elem) {
                                 callback(objs, results);
                             }
                         );
-                    });
+                    }
+                );
             },
 
             /** 
@@ -195,6 +205,26 @@ var createVM = function (elem) {
                 }
 
                 return false;
+            },
+
+            searchBf(json, url) {
+                let start = url.lastIndexOf('/') + 1;
+                let end = url.lastIndexOf('.');
+                let textureName = url.slice(start, end);
+
+                let str = '';
+                if (this.bfList[json.path]) {
+                    str = this.bfList[json.path];
+                }
+                else {
+                    str = this.bfList[json.path] = FFs.readFileSync(json.path, 'utf-8');
+                }
+
+                if (str.indexOf(textureName) == -1) {
+                    return false;
+                }
+                
+                return true;
             },
 
             /**
