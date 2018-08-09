@@ -34,7 +34,6 @@ var createVM = function (elem) {
                 let self = this;
                 let custIngnore = this.splitInput(this.input)
 
-                this.bfList = {};
                 this.items.length = 0;
                 this.items = [];
                 let callback = function (objs, results) {
@@ -42,7 +41,14 @@ var createVM = function (elem) {
                         if (self.ignore.prefab.indexOf(obj.url) != -1) {
                             return;
                         }
-                        let json = FFs.readJsonSync(obj.path);
+
+                        let json = null;
+                        if (obj.type != 'bitmap-font') {
+                            json = FFs.readJsonSync(obj.path);
+                        }
+                        else {
+                            json = FFs.readFileSync(obj.path, 'utf-8');
+                        }
 
                         results.forEach(function (result) {
                             if (result.url.indexOf('/default_') !== -1) {
@@ -64,6 +70,14 @@ var createVM = function (elem) {
                                 result.contain = true;
                                 return;
                             }
+                            
+                            if (
+                                (typeof json) === 'string' &&
+                                self.searchBf(json, result.url)
+                            ) {
+                                result.contain = true;
+                                return;
+                            }
 
                             if (
                                 json['__type__'] === 'cc.AnimationClip' &&
@@ -73,13 +87,6 @@ var createVM = function (elem) {
                                 return;
                             }
 
-                            if (
-                                json['type'] === 'bitmap-font' &&
-                                self.searchBf(json, result.url)
-                            ) {
-                                result.contain = true;
-                                return;
-                            }
 
                             result.contain =
                                 result.contain ?
@@ -207,18 +214,10 @@ var createVM = function (elem) {
                 return false;
             },
 
-            searchBf(json, url) {
+            searchBf(str, url) {
                 let start = url.lastIndexOf('/') + 1;
-                let end = url.lastIndexOf('.');
-                let textureName = url.slice(start, end);
-
-                let str = '';
-                if (this.bfList[json.path]) {
-                    str = this.bfList[json.path];
-                }
-                else {
-                    str = this.bfList[json.path] = FFs.readFileSync(json.path, 'utf-8');
-                }
+                // let end = url.lastIndexOf('.');
+                let textureName = url.slice(start, url.length);
 
                 if (str.indexOf(textureName) == -1) {
                     return false;
