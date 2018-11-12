@@ -1,8 +1,11 @@
 # 支持我
 
-插件永久免费，不需要捐钱，只需要支付宝扫描以下二维码领取红包即可
+插件永久免费，请我喝饮料可以扫底下
 
-![image](https://raw.githubusercontent.com/shpz/CreatorClean/master/red.png)
+![image](https://raw.githubusercontent.com/shpz/AttackArea/master/wechat.png)
+
+![image](https://raw.githubusercontent.com/shpz/AttackArea/master/alipay.png)
+
 
 # 写在前边
 
