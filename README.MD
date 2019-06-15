@@ -4,11 +4,6 @@
 
 ![image](https://github.com/shpz/AttackArea/blob/master/2AF460741A4A4ED737FBA59267614D7C.png?raw=true)
 
-![image](https://raw.githubusercontent.com/shpz/AttackArea/master/wechat.png)
-
-![image](https://raw.githubusercontent.com/shpz/AttackArea/master/alipay.png)
-
-
 # 写在前边
 
 插件前身是一段扫描指定目录图片资源的代码，用于项目瘦身
