@@ -31,72 +31,67 @@ var createVM = function (elem) {
 
             refresh() {
                 let adb = Editor.assetdb;
-                let self = this;
-                let custIngnore = this.splitInput(this.input)
+                let customIgnore = this.splitInput(this.input);
 
                 this.items.length = 0;
                 this.items = [];
-                let callback = function (objs, results) {
-                    objs.forEach(function (obj) {
-                        if (self.ignore.prefab.indexOf(obj.url) != -1) {
-                            return;
-                        }
 
-                        let json = null;
-                        if (obj.type != 'bitmap-font') {
-                            json = FFs.readJsonSync(obj.path);
-                        }
-                        else {
-                            json = FFs.readFileSync(obj.path, 'utf-8');
-                        }
-
-                        results.forEach(function (result) {
-                            if (result.url.indexOf('/default_') !== -1) {
-                                result.contain = true;
+                let callback = (objs, results) => {
+                    objs.forEach(
+                        (obj) => {
+                            if (this.ignore.prefab.indexOf(obj.url) != -1) {
+                                console.log('Creator\'s prefab.');
                                 return;
                             }
 
-                            for (let i = 0; i < custIngnore.length; i++) {
-                                if (result.url.indexOf(custIngnore[i]) !== -1) {
+                            let text = FFs.readFileSync(obj.path, 'utf-8');
+                            results.forEach(function (result) {
+                                if (result.url.indexOf('/default_') !== -1) {
                                     result.contain = true;
                                     return;
                                 }
-                            }
 
-                            if (
-                                self.resources &&
-                                result.url.indexOf('db://assets/resources') !== -1
-                            ) {
-                                result.contain = true;
-                                return;
-                            }
-                            
-                            if (
-                                (typeof json) === 'string' &&
-                                self.searchBf(json, result.url)
-                            ) {
-                                result.contain = true;
-                                return;
-                            }
+                                for (let i = 0; i < customIgnore.length; i++) {
+                                    if (result.url.indexOf(customIgnore[i]) !== -1) {
+                                        result.contain = true;
+                                        return;
+                                    }
+                                }
 
-                            if (
-                                json['__type__'] === 'cc.AnimationClip' &&
-                                self.searchClip(json, result.uuid)
-                            ) {
-                                result.contain = true;
-                                return;
-                            }
+                                if (
+                                    this.resources &&
+                                    result.url.indexOf('db://assets/resources') !== -1
+                                ) {
+                                    result.contain = true;
+                                    return;
+                                }
+
+                                if (
+                                    (typeof text) === 'string' &&
+                                    this.searchBf(text, result.url)
+                                ) {
+                                    result.contain = true;
+                                    return;
+                                }
+
+                                if (
+                                    text['__type__'] === 'cc.AnimationClip' &&
+                                    this.searchClip(text, result.uuid)
+                                ) {
+                                    result.contain = true;
+                                    return;
+                                }
 
 
-                            result.contain =
-                                result.contain ?
-                                    true :
-                                    self.search(json, result.uuid);
+                                result.contain =
+                                    result.contain ?
+                                        true :
+                                        this.search(text, result.uuid);
+                            });
                         });
-                    });
 
                     results.forEach(function (result) {
-                        result.contain == true ? '' : self.items.push({
+                        result.contain == true ? '' : this.items.push({
                             url: result.url,
                             uuid: result.uuid
                         });
@@ -109,7 +104,7 @@ var createVM = function (elem) {
                     function (err, objs) {
                         adb.queryAssets(
                             null,
-                            self.type,
+                            this.type,
                             function (err, results) {
                                 callback(objs, results);
                             }
@@ -124,10 +119,10 @@ var createVM = function (elem) {
              * @argument {String}           uuid
              */
             search(json, uuid) {
-                let self = this;
+
                 if (json instanceof Array) {
                     for (let i = 0; i < json.length; i++) {
-                        if (self.search(json[i], uuid)) {
+                        if (this.search(json[i], uuid)) {
                             return true;
                         }
                     }
@@ -137,13 +132,13 @@ var createVM = function (elem) {
                         return json._spriteFrame.__uuid__ == uuid;
                     }
                     else if (json['__type__'] === 'cc.Button') {
-                        return self.searchButton(json, uuid);
+                        return this.searchButton(json, uuid);
                     }
                     else if (json['__type__'] && json['__type__'].length > 20) {
                         if (Editor.Utils.UuidUtils.isUuid(
                             Editor.Utils.UuidUtils.decompressUuid(json['__type__'])
                         )) {
-                            return self.searchScript(json, uuid);
+                            return this.searchScript(json, uuid);
                         }
                     }
                 }
@@ -185,7 +180,7 @@ var createVM = function (elem) {
              * @argument {String}   uuid    target.uuid
              */
             searchClip(json, uuid) {
-                let self = this;
+
                 let spriteFrame = [];
                 let paths = this.getValue(json, 'paths');
                 if (paths) {
@@ -216,13 +211,12 @@ var createVM = function (elem) {
 
             searchBf(str, url) {
                 let start = url.lastIndexOf('/') + 1;
-                // let end = url.lastIndexOf('.');
                 let textureName = url.slice(start, url.length);
 
                 if (str.indexOf(textureName) == -1) {
                     return false;
                 }
-                
+
                 return true;
             },
 
@@ -296,14 +290,14 @@ var createVM = function (elem) {
             },
 
             deleteRes(url, items) {
-                let self = this;
+
                 let adb = Editor.assetdb;
                 if (url.length > 1) {
                     this.refresh();
                 }
                 else {
                     let index = items.findIndex(function (item, index, array) {
-                        return self.getPicUrl(item.url) == url[0];
+                        return this.getPicUrl(item.url) == url[0];
                     });
                     index == -1 ? '' : items.splice(index, 1);
                 }
